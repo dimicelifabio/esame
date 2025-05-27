@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui">
+<h:head>
+    <title>ExamTrack - Sistema di Gestione Esami</title>
+</h:head>
+<h:body>
+    <p:tabView>
+        <p:tab title="Studenti">
+            <h:form id="studenteForm">
+                <p:panel header="Inserimento Nuovo Studente">
+                    <h:panelGrid columns="2">
+                        <p:outputLabel for="nome" value="Nome:" />
+                        <p:inputText id="nome" value="#{studenteController.nuovoStudente.nome}" required="true" />
+                        
+                        <p:outputLabel for="cognome" value="Cognome:" />
+                        <p:inputText id="cognome" value="#{studenteController.nuovoStudente.cognome}" required="true" />
+                        
+                        <p:outputLabel for="matricola" value="Matricola:" />
+                        <p:inputText id="matricola" value="#{studenteController.nuovoStudente.matricola}" required="true" />
+                    </h:panelGrid>
+                    <p:commandButton value="Salva" action="#{studenteController.salvaStudente}" update="studenteForm studenteTable" />
+                </p:panel>
+                
+                <p:dataTable id="studenteTable" value="#{studenteController.studenti}" var="studente" style="margin-top: 20px;">
+                    <p:column headerText="ID">
+                        <h:outputText value="#{studente.id}" />
+                    </p:column>
+                    <p:column headerText="Nome">
+                        <h:outputText value="#{studente.nome}" />
+                    </p:column>
+                    <p:column headerText="Cognome">
+                        <h:outputText value="#{studente.cognome}" />
+                    </p:column>
+                    <p:column headerText="Matricola">
+                        <h:outputText value="#{studente.matricola}" />
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:tab>
+        
+        <p:tab title="Corsi">
+            <h:form id="corsoForm">
+                <p:panel header="Inserimento Nuovo Corso">
+                    <h:panelGrid columns="2">
+                        <p:outputLabel for="nomeCorso" value="Nome:" />
+                        <p:inputText id="nomeCorso" value="#{corsoController.nuovoCorso.nome}" required="true" />
+                        
+                        <p:outputLabel for="descrizione" value="Descrizione:" />
+                        <p:inputTextarea id="descrizione" value="#{corsoController.nuovoCorso.descrizione}" rows="3" />
+                    </h:panelGrid>
+                    <p:commandButton value="Salva" action="#{corsoController.salvaCorso}" update="corsoForm corsoTable" />
+                </p:panel>
+                
+                <p:dataTable id="corsoTable" value="#{corsoController.corsi}" var="corso" style="margin-top: 20px;">
+                    <p:column headerText="ID">
+                        <h:outputText value="#{corso.id}" />
+                    </p:column>
+                    <p:column headerText="Nome">
+                        <h:outputText value="#{corso.nome}" />
+                    </p:column>
+                    <p:column headerText="Descrizione">
+                        <h:outputText value="#{corso.descrizione}" />
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:tab>
+        
+        <p:tab title="Prove d'Esame">
+            <h:form id="provaForm">
+                <p:panel header="Registrazione Prova d'Esame">
+                    <h:panelGrid columns="2">
+                        <p:outputLabel for="studente" value="Studente:" />
+                        <p:selectOneMenu id="studente" value="#{provaEsameController.studenteId}" required="true">
+                            <f:selectItem itemLabel="Seleziona uno studente" itemValue="" />
+                            <f:selectItems value="#{provaEsameController.studenti}" var="s" 
+                                          itemLabel="#{s.cognome} #{s.nome} (#{s.matricola})" itemValue="#{s.id}" />
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel for="corso" value="Corso:" />
+                        <p:selectOneMenu id="corso" value="#{provaEsameController.corsoId}" required="true">
+                            <f:selectItem itemLabel="Seleziona un corso" itemValue="" />
+                            <f:selectItems value="#{provaEsameController.corsi}" var="c" 
+                                          itemLabel="#{c.nome}" itemValue="#{c.id}" />
+                        </p:selectOneMenu>
+                        
+                        <p:outputLabel for="voto" value="Voto:" />
+                        <p:spinner id="voto" value="#{provaEsameController.nuovaProva.voto}" min="0" max="30" required="true" />
+                    </h:panelGrid>
+                    <p:commandButton value="Registra" action="#{provaEsameController.salvaProvaEsame}" update="provaForm provaTable" />
+                </p:panel>
+                
+                <p:dataTable id="provaTable" value="#{provaEsameController.proveEsami}" var="prova" style="margin-top: 20px;">
+                    <p:column headerText="Studente">
+                        <h:outputText value="#{prova.studente.cognome} #{prova.studente.nome}" />
+                    </p:column>
+                    <p:column headerText="Corso">
+                        <h:outputText value="#{prova.corso.nome}" />
+                    </p:column>
+                    <p:column headerText="Voto">
+                        <h:outputText value="#{prova.voto}" />
+                    </p:column>
+                    <p:column headerText="Esito">
+                        <h:outputText value="Superato" rendered="#{prova.voto >= 18}" style="color: green;" />
+                        <h:outputText value="Non superato" rendered="#{prova.voto lt 18}" style="color: red;" />
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:tab>
+        
+        <p:tab title="Stato Studenti">
+            <h:form id="statoForm">
+                <p:dataTable id="statoTable" value="#{provaEsameController.statoStudenti}" var="stato">
+                    <p:column headerText="Studente">
+                        <h:outputText value="#{stato.studente.cognome} #{stato.studente.nome} (#{stato.studente.matricola})" />
+                    </p:column>
+                    <p:column headerText="Media Voti">
+                        <h:outputText value="#{stato.mediaVoti}">
+                            <f:convertNumber pattern="#0.00" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column headerText="Corsi da Superare">
+                        <p:dataList value="#{stato.corsiNonSuperati}" var="corso" type="ordered">
+                            <h:outputText value="#{corso.nome}" />
+                        </p:dataList>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </p:tab>
+    </p:tabView>
+</h:body>
+</html>
