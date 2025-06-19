@@ -61,24 +61,6 @@
 			<artifactId>jakarta.servlet-api</artifactId>
 			<scope>provided</scope>
 		</dependency>
-		<!-- Rimuovi queste dipendenze dirette di JSF -->
-		<!-- 
-		<dependency>
-			<groupId>jakarta.faces</groupId>
-			<artifactId>jakarta.faces-api</artifactId>
-			<version>3.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.glassfish</groupId>
-			<artifactId>jakarta.faces</artifactId>
-			<version>3.0.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.primefaces</groupId>
-			<artifactId>primefaces</artifactId>
-			<version>12.0.0</version>
-		</dependency>
-		-->
 		<dependency>
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>

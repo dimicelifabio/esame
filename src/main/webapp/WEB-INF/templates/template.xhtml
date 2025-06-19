@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+<h:head>
+    <title>ExamTrack - <ui:insert name="title">Sistema di Gestione Esami</ui:insert></title>
+</h:head>
+<h:body>
+    <p:growl id="growl" showDetail="true" />
+    
+    <div class="header">
+        <h1>ExamTrack</h1>
+    </div>
+    
+    <p:tabView>
+        <p:tab title="Studenti">
+            <ui:include src="/studenti/list.xhtml" />
+        </p:tab>
+        
+        <p:tab title="Corsi">
+            <ui:include src="/corsi/list.xhtml" />
+        </p:tab>
+        
+        <p:tab title="Prove d'Esame">
+            <ui:include src="/esami/list.xhtml" />
+        </p:tab>
+        
+        <p:tab title="Stato Studenti">
+            <ui:include src="/dashboard/stato-studenti.xhtml" />
+        </p:tab>
+    </p:tabView>
+    
+    <ui:insert name="dialogs" />
+    
+    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
+        <p:commandButton value="Sì" type="button" styleClass="ui-confirmdialog-yes" icon="pi pi-check" />
+        <p:commandButton value="No" type="button" styleClass="ui-confirmdialog-no ui-button-secondary" icon="pi pi-times" />
+    </p:confirmDialog>
+</h:body>
+</html>
