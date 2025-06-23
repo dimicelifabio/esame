@@ -12,57 +12,47 @@
             <p:tabView id="mainTabView">
                 <p:tab title="Studenti">
                     <h:form id="studenteForm">
-                        <p:toolbar style="margin-bottom:10px;">
-                            <p:toolbarGroup>
-                                <p:commandButton value="Nuovo Studente" icon="pi pi-plus" 
-                                                 oncomplete="PF('dialogNuovoStudente').show()" update=":studenteFormNuovo"/>
-                            </p:toolbarGroup>
-                        </p:toolbar>
+                        <p:commandButton value="Nuovo Studente" icon="pi pi-plus" 
+                                         oncomplete="PF('dialogNuovoStudente').show()" update=":studenteFormNuovo" style="margin-bottom:10px;"/>
                         
-                        <p:outputPanel id="studentiTableContainer">
-                            <p:dataTable id="studenteTable" value="#{studenteController.studenti}" var="studente" style="margin-top: 20px;">
-                                <p:column headerText="ID">
-                                    <h:outputText value="#{studente.id}" />
-                                </p:column>
-                                <p:column headerText="Nome">
-                                    <h:outputText value="#{studente.nome}" />
-                                </p:column>
-                                <p:column headerText="Cognome">
-                                    <h:outputText value="#{studente.cognome}" />
-                                </p:column>
-                                <p:column headerText="Matricola">
-                                    <h:outputText value="#{studente.matricola}" />
-                                </p:column>
-                                <p:column headerText="Azioni">
-                                    <p:commandButton icon="pi pi-pencil" 
-                                                     title="Modifica"
-                                                     action="#{studenteController.selezionaStudentePerModifica(studente)}"
-                                                     oncomplete="PF('dialogStudenteModifica').show();" 
-                                                     update=":studenteFormModifica:panelModificaStudente" style="margin-right: 5px;"/>
-                                    <p:commandButton icon="pi pi-trash" 
-                                                     title="Elimina"
-                                                     action="#{studenteController.eliminaStudente(studente.id)}"  
-                                                     update=":mainTabView:studenteForm:studentiTableContainer :growl"
-                                                     process="@this"
-                                                     styleClass="ui-button-danger" > 
-                                        <p:confirm header="Conferma Eliminazione" 
-                                                   message="Sei sicuro di voler eliminare lo studente #{studente.cognome} #{studente.nome}?" 
-                                                   icon="pi pi-exclamation-triangle" />
-                                    </p:commandButton>
-                                </p:column>
-                            </p:dataTable>
-                        </p:outputPanel>
+                        <p:dataTable id="studenteTable" value="#{studenteController.studenti}" var="studente" style="margin-top: 20px;">
+                            <p:column headerText="ID">
+                                <h:outputText value="#{studente.id}" />
+                            </p:column>
+                            <p:column headerText="Nome">
+                                <h:outputText value="#{studente.nome}" />
+                            </p:column>
+                            <p:column headerText="Cognome">
+                                <h:outputText value="#{studente.cognome}" />
+                            </p:column>
+                            <p:column headerText="Matricola">
+                                <h:outputText value="#{studente.matricola}" />
+                            </p:column>
+                            <p:column headerText="Azioni">
+                                <p:commandButton icon="pi pi-pencil" 
+                                                 title="Modifica"
+                                                 action="#{studenteController.selezionaStudentePerModifica(studente)}"
+                                                 oncomplete="PF('dialogStudenteModifica').show();" 
+                                                 update=":studenteFormModifica:panelModificaStudente" style="margin-right: 5px;"/>
+                                <p:commandButton icon="pi pi-trash" 
+                                                 title="Elimina"
+                                                 action="#{studenteController.eliminaStudente(studente.id)}"  
+                                                 update=":mainTabView:studenteForm:studenteTable :growl"
+                                                 process="@this"
+                                                 styleClass="ui-button-danger" > 
+                                    <p:confirm header="Conferma Eliminazione" 
+                                               message="Sei sicuro di voler eliminare lo studente #{studente.cognome} #{studente.nome}?" 
+                                               icon="pi pi-exclamation-triangle" />
+                                </p:commandButton>
+                            </p:column>
+                        </p:dataTable>
                     </h:form>
                 </p:tab>
                 
                 <p:tab title="Corsi">
                     <h:form id="corsoForm">
-                        <p:toolbar style="margin-bottom:10px;">
-                            <p:toolbarGroup>
-                                <p:commandButton value="Nuovo Corso" icon="pi pi-plus" 
-                                                 oncomplete="PF('dialogNuovoCorso').show()" update=":corsoFormNuovo"/>
-                            </p:toolbarGroup>
-                        </p:toolbar>
+                        <p:commandButton value="Nuovo Corso" icon="pi pi-plus" 
+                                         oncomplete="PF('dialogNuovoCorso').show()" update=":corsoFormNuovo" style="margin-bottom:10px;"/>
                         
                         <p:dataTable id="corsoTable" value="#{corsoController.corsi}" var="corso" style="margin-top: 20px;">
                             <p:column headerText="ID">
@@ -182,7 +172,7 @@
                 <p:commandButton value="Salva Modifiche" 
                                  action="#{studenteController.aggiornaStudente}" 
                                  process="@form"  
-                                 update=":mainTabView:studenteForm:studentiTableContainer :growl" 
+                                 update=":mainTabView:studenteForm:studenteTable :growl" 
                                  oncomplete="if (!args.validationFailed) PF('dialogStudenteModifica').hide();"/>
             </p:outputPanel>
         </h:form>
@@ -202,7 +192,7 @@
             </h:panelGrid>
             <p:commandButton value="Salva" 
                              action="#{studenteController.salvaStudente}" 
-                             update="@form :mainTabView:studenteForm:studentiTableContainer :growl :studenteFormNuovo" 
+                             update="@form :mainTabView:studenteForm:studenteTable :growl :studenteFormNuovo" 
                              oncomplete="if (!args.validationFailed) { PF('dialogNuovoStudente').hide(); }"/>
         </h:form>
     </p:dialog>

@@ -1,4 +1,4 @@
-package com.exam.esame.controller;
+package com.exam.esame.controllers;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -24,7 +24,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Named
-@SessionScoped // Modificato in scope CDI
+@SessionScoped
 @Getter
 @Setter
 public class ProvaEsameController {
@@ -57,16 +57,13 @@ public class ProvaEsameController {
         Corso corso = corsoRepository.findById(corsoId).orElse(null);
 
         if (studente != null && corso != null) {
-            // Verifica se esiste già una prova per questo studente e corso
             ProvaEsame provaEsistente = provaEsameRepository.findByStudenteAndCorso(studente, corso);
             if (provaEsistente != null) {
-                // Aggiorna la prova esistente
                 provaEsistente.setVoto(nuovaProva.getVoto());
                 provaEsameRepository.save(provaEsistente);
                 FacesContext.getCurrentInstance().addMessage(null,
                         new FacesMessage(FacesMessage.SEVERITY_INFO, "Successo", "Prova d'esame aggiornata."));
             } else {
-                // Salva una nuova prova
                 nuovaProva.setStudente(studente);
                 nuovaProva.setCorso(corso);
                 provaEsameRepository.save(nuovaProva);
@@ -83,12 +80,8 @@ public class ProvaEsameController {
         }
     }
 
-    // Metodo per il pulsante Aggiorna Dati
     public void aggiornaDatiProve() {
-        caricaProveEsami(); // Ricarica la tabella delle prove
-        // I menu a tendina (studenti e corsi) verranno aggiornati
-        // automaticamente da JSF quando i componenti vengono ri-renderizzati
-        // perché i loro metodi getter recuperano i dati freschi.
+        caricaProveEsami();
         FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Aggiornamento",
                 "Dati della pagina Prove d'Esame aggiornati."));
     }
@@ -109,7 +102,6 @@ public class ProvaEsameController {
         for (Studente studente : studenti) {
             List<ProvaEsame> proveStudente = provaEsameRepository.findByStudente(studente);
 
-            // Calcola media voti
             double mediaVoti = proveStudente.stream()
                     .filter(p -> p.getVoto() != null && p.getVoto() >= 18)
                     .mapToInt(ProvaEsame::getVoto)
